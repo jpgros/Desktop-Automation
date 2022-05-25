@@ -1,7 +1,9 @@
 import time
 import random
-import Gui
+import Sources.Gui as Gui
+import os
 #import main
+from tkinter import filedialog as fd
 from pynput import mouse
 from pynput.mouse import Button, Controller, Listener
 class backEnd:
@@ -9,25 +11,35 @@ class backEnd:
 
 inst = backEnd()
 mouse = Controller()
+strFile= "" #"C:/Users/jgr22027/OneDrive - OPEN/Documents/ScriptFiles/"
 def clickProcess(file):
-	f = open("C:/Users/jgr22027/PycharmProjects/DesktopAutomationGui/clickingScript.txt","r")
-	print("C:/Users/jgr22027/PycharmProjects/DesktopAutomationGui/clickingScript.txt","r")
-	for x in range(3):
-		timeBetweenClick = int(f.readline())
-		entryNB= int(f.readline())
-		timePressed= int(f.readline())
-		entryDelay= int(f.readline())
-		line= f.readline()
-		line= f.readline()
-		#if(line.__contains__(';')) : break
-		coords = line.split(";")
-		print(coords[0] + " " + coords[1])
-		mouse.move( int(coords[0]), int(coords[1]))
-		mouse.press(Button.left)
-		time.sleep(timePressed)
-		mouse.release(Button.left)
-		time.sleep(int(entryDelay))
-		print("Current position: " + str(mouse.position))
+	try:
+		f = open("toto") #open(strFile+"clickingScript.txt","r")
+		print(strFile +"clickingScript.txt","r")
+	except (FileNotFoundError) as e:
+		file = fd.askopenfilename(initialdir=os.getcwd())
+		f=open(file)
+		print(f)
+	while True:
+		try:
+			timeBetweenClick = float(f.readline())
+			entryNB= int(f.readline())
+			timePressed= float(f.readline())
+			entryDelay= float(f.readline())
+			line= f.readline()
+			line= f.readline()
+			#if(line.__contains__(';')) : break
+			coords = line.split(";")
+			print(coords[0] + " " + coords[1])
+			mouse.move( int(coords[0]), int(coords[1]))
+			mouse.press(Button.left)
+			time.sleep(timePressed)
+			mouse.release(Button.left)
+			time.sleep(float(entryDelay))
+			print("Current position: " + str(mouse.position))
+		except (AttributeError, ValueError) as e:
+			print("catched "+ str(e))
+			break
 
 
 def printSelectedCoord():
@@ -47,8 +59,8 @@ def retrievingMouseCoord(nb):
 			if len(inst.coords)>=nb:
 				# Stop listener
 				print(" try ")
-				Gui.msgArea="Selected (" + str(inst.coords.__getitem__(len(inst.coords)-4)) + "," + str(inst.coords.__getitem__(len(inst.coords)-3))
-				Gui.msgArea = Gui.msgArea + ") (" + str(inst.coords.__getitem__(len(inst.coords)-2)) + "," + str(inst.coords.__getitem__(len(inst.coords)-1)) +")"
+				Gui.msgArea= "Selected (" + str(inst.coords.__getitem__(len(inst.coords) - 4)) + "," + str(inst.coords.__getitem__(len(inst.coords) - 3))
+				Gui.msgArea = Gui.msgArea + ") (" + str(inst.coords.__getitem__(len(inst.coords) - 2)) + "," + str(inst.coords.__getitem__(len(inst.coords) - 1)) + ")"
 				print("strarea should be " + Gui.msgArea)
 				return False
 
@@ -64,16 +76,16 @@ def verifPos(x,y):
 		y= (random.random()*500)+300
 	mouse.position= (x,y)
 def setCoords():
-	f = open("areas.txt", "a")
+	f = open(strFile+"areas.txt", "a")
 	f.write("wrting")
 	f.write(str(inst.coords[0]) +";"+ str(inst.coords[1])+ "\n")
 	inst.coords.clear()
 	f.close()
 def retrieveClickingScript():
-	f = open("clickingScript.txt", "a")
+	f = open(strFile+"clickingScript.txt", "a")
 
 def submitClickingScript(timeBetweenClick, entryNB,entryDelay,timePressed, clickMode):
-	f = open("clickingScript.txt", "a")
+	f = open(strFile+"clickingScript.txt", "a")
 	res=""
 	res = timeBetweenClick.get() if timeBetweenClick.get() !=None and clickMode.get()=="1" else "-1"
 	f.write(res+"\n")
@@ -88,7 +100,7 @@ def submitClickingScript(timeBetweenClick, entryNB,entryDelay,timePressed, click
 	f.write(str(inst.coords[2]) +";"+ str(inst.coords[3])+ "\n")
 	inst.coords.clear()
 	f.close()
-	Gui.infoMsg="Writen done"
+	Gui.infoMsg= "Writen done"
 
 print ("Current positions: " + str(mouse.position))
 #mouse.position = (404, 879)#absolute

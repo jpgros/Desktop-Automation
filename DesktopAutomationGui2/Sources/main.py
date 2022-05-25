@@ -1,6 +1,6 @@
 # This is a sample Python script.
-import Gui
-import backEnd
+import Sources.Gui as Gui
+import time
 # Press Maj+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
@@ -13,4 +13,3 @@ g1.launchWindow()
 #backEnd.printSelectedCoord()
 #backEnd.repeatclick(10)
 #test = testVar()
-
