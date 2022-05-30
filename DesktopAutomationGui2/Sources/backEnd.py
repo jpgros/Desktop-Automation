@@ -84,14 +84,23 @@ def setCoords():
 def retrieveClickingScript():
 	f = open(strFile+"clickingScript.txt", "a")
 
-def submitClickingScript(timeBetweenClick, entryNB,entryDelay,timePressed, clickMode):
+def submitClickingScript(timeBetweenClick, entryNB,entryDelay,timePressed, clickMode, durationMode):
 	f = open(strFile+"clickingScript.txt", "a")
 	res=""
-	res = timeBetweenClick.get() if timeBetweenClick.get() !=None and clickMode.get()=="1" else "-1"
+	res = timeBetweenClick.get() if timeBetweenClick.get() !=None and clickMode.get()=="Multiple" else "-1"
 	f.write(res+"\n")
-	res = entryNB.get() if entryNB.get() != None and clickMode.get()=="1" else "-1"
+	if entryNB.get() != None and clickMode.get()=="Multiple":
+		if durationMode.get()=="Clicks":
+			res = "C:" + entryNB.get()
+		elif durationMode.get()=="Seconds":
+			res = "S:" + entryNB.get()
+		else:
+			print("Duration mode " + str(durationMode.get()) + "not taken into account")
+			print("Please be sure you selected either a duration or a click number if you chose multiple clicks")
+	else:
+		res= "-1"
 	f.write(res+"\n")
-	res = timePressed.get() if timePressed.get() != None and clickMode.get()=="2" else "-1"
+	res = timePressed.get() if timePressed.get() != None and clickMode.get()=="Single" else "-1"
 	f.write(res + "\n")
 	res = entryDelay.get() if entryDelay.get() != None else "0"
 	f.write(res + "\n")

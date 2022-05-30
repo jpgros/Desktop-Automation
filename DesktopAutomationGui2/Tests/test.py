@@ -4,7 +4,7 @@ import Sources.Gui as Gui
 import Sources.TestResources as tc
 from unittest.mock import patch
 from unittest.mock import Mock
-#Carefull ptyesy-mock package need to be installed
+#Carefull pytest-mock package need to be installed
 # into pycharm to use mocker in tests
 
 #put 'test' before each method name eather it will be ignored
